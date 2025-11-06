@@ -1,5 +1,10 @@
 package Shared;
 
-public class TipoRichiesta {
-    
+public enum TipoRichiesta {
+    LISTA_STRUMENTI,
+    LISTA_STRUMENTI_SEZIONE,
+    LISTA_STRUMENTI_MARCA,
+    LISTA_ACQUISTI,
+    CERCA_NOME_STRUMENTO
 }
+

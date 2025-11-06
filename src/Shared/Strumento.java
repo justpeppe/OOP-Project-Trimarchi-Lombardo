@@ -16,7 +16,11 @@ public abstract class Strumento implements Serializable {
     }
 
      public Strumento (String nome, String marca, int ID, int prezzo, int quantita, Sezioni sezione){
-        this(nome, marca, ID, prezzo, sezione);
+        this.nome = nome;
+        this.marca = marca;
+        this.ID = ID;
+        this.prezzo = prezzo;
+        this.sezione = sezione;
         this.quantita = quantita;
      }
 

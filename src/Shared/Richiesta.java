@@ -1,5 +1,7 @@
 package Shared;
 
-public class Richiesta {
-    
+import java.io.Serializable;
+
+public abstract class Richiesta implements Serializable{
+
 }
