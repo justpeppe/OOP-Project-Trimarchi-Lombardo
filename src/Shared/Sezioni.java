@@ -1,5 +1,5 @@
 package Shared;
 
-public class Sezioni {
-    
+public enum Sezioni {
+    LEGNO, ARCO, PERCUSSIONE, OTTONE
 }
