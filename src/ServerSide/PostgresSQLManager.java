@@ -17,6 +17,8 @@ public class PostgresSQLManager extends GestoreDB {
         this.driver = Utils.getElementValue("server.xml", "driver");
     }
 
+    // Apertura e chiusura connessione
+
     @Override
     public void Connect() {
         try {
@@ -95,9 +97,65 @@ public class PostgresSQLManager extends GestoreDB {
     }
 
     @Override
+    public ArrayList<Strumento> getNomeStrumento(String nomeStrumento) {
+        ArrayList<Strumento> listaStrumentiNome = new ArrayList<>();
+
+        String sqlQuery = "SELECT * FROM STRUMENTI " +
+                "WHERE NOME LIKE %'" + nomeStrumento + "'";
+
+        ResultSet resultSet;
+
+        try {
+            resultSet = stmt.executeQuery(sqlQuery);
+            if (resultSet.isBeforeFirst()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("ID");
+                    String nome = resultSet.getString("Nome");
+                    String marca = resultSet.getString("Marca");
+                    int prezzo = resultSet.getInt("Prezzo");
+                    int quantita = resultSet.getInt("Quantita");
+                    String sezioneStrumento = resultSet.getString("Sezione");
+
+                    Sezioni sezioneQuery = Sezioni.valueOf(sezioneStrumento.toUpperCase());
+
+                    Strumento strumento;
+
+                    switch (sezioneQuery) {
+                        case LEGNO:
+                            strumento = new StrumentoLegno(nome, marca, id, prezzo, quantita);
+                            listaStrumentiNome.add(strumento);
+                            break;
+                        case ARCO:
+                            strumento = new StrumentoArco(nome, marca, id, prezzo, quantita);
+                            listaStrumentiNome.add(strumento);
+                            break;
+                        case PERCUSSIONE:
+                            strumento = new StrumentoPercussione(nome, marca, id, prezzo, quantita);
+                            listaStrumentiNome.add(strumento);
+                            break;
+                        case OTTONE:
+                            strumento = new StrumentoOttone(nome, marca, id, prezzo, quantita);
+                            listaStrumentiNome.add(strumento);
+                            break;
+                        default:
+                            System.out.println("Errore, sezione non riconosciuta!");
+                            break;
+                    }
+                }
+            } else {
+                System.out.println("Non e\' stato trovato nessuno strumento con il nome: " + nomeStrumento);
+            }
+        } catch (SQLException sqlException) {
+            System.out.println("Non è stato possibile fare la query, errore: \n");
+            sqlException.printStackTrace();
+        }
+        return listaStrumentiNome;
+    }
+
+    @Override
     public ArrayList<Strumento> getListaStrumentiSezioni(String sezione) {
         ArrayList<Strumento> listaStrumentiSezioni = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM Strumenti" +
+        String sqlQuery = "SELECT * FROM Strumenti " +
                 "WHERE Sezione = '" + sezione + "'";
 
         ResultSet resultSet;
@@ -153,7 +211,7 @@ public class PostgresSQLManager extends GestoreDB {
 
     public ArrayList<Strumento> getListaStrumentiMarca(String marcaStrumento) {
         ArrayList<Strumento> listaStrumentiMarca = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM Strumenti" +
+        String sqlQuery = "SELECT * FROM Strumenti " +
                 "WHERE Marca LIKE '%" + marcaStrumento + "'";
 
         ResultSet resultSet;
@@ -209,9 +267,55 @@ public class PostgresSQLManager extends GestoreDB {
         return listaStrumentiMarca;
     }
 
-    public ArrayList<Strumento> getListaAcquisti(RichiestaStorico richiestaStorico) {
-        ArrayList<Strumento> listaAcquisti = new ArrayList<>();
-        String sqlQuery = "SELECT NomeStrumento" +
+    public boolean AcquistaStrumento(RichiestaAcquisto richiestaAcquisto) {
+        String nome = richiestaAcquisto.getNome();
+        String cognome = richiestaAcquisto.getCognome();
+        String email = richiestaAcquisto.getEmail();
+        int IDstrumento = richiestaAcquisto.getIDStrumento();
+        String nomeStrumento = richiestaAcquisto.getNomeStrumento();
+
+        // Acquista deve diminuire il numero di copie disponibili nel db
+        String sqlQueryAcquista = "UPDATE Strumenti " +
+                "SET NumeroCopie = NumeroCopie - 1" +
+                "WHERE ID = " + IDstrumento + " " +
+                "AND Numerocopie > 0";
+
+        // Aggiorniamo la tabella delle vendite
+        String sqlQueryVendita = "INSERT INTO Vendite (Nome,Cognome,Email,IDStrumento,NomeStrumento) " +
+                "VALUES ('" + nome + "', '" + cognome + "', '" + email + "', '" + IDstrumento + "', '" + nomeStrumento
+                + "');";
+
+        int risultatoQueryAcquista = 0;
+        int risultatoQueryVendita = 0;
+
+        try {
+            risultatoQueryAcquista = stmt.executeUpdate(sqlQueryAcquista);
+            risultatoQueryVendita = stmt.executeUpdate(sqlQueryVendita);
+        } catch (SQLException sqlException) {
+            System.out.println("Errore nella query: ");
+            sqlException.printStackTrace();
+            return false;
+        } finally {
+            if ((risultatoQueryAcquista) > 0 && (risultatoQueryVendita) > 0) {
+                System.out.println("Acquisto andato a buon fine!");
+                return true;
+            } else if ((risultatoQueryAcquista) == 0) {
+                System.out.println("Lo strumento richiesto non e\' disponibile");
+                return false;
+            } else if ((risultatoQueryVendita) == 0) {
+                System.out.println("Errore nell'aggiornare la tabella Vendite");
+                return false;
+            }
+        }
+
+        // Se try-catch-finally fallisce per altri motivi la funzione deve restituire
+        // false
+        return false;
+    }
+
+    public ArrayList<String> getListaAcquisti(RichiestaStorico richiestaStorico) {
+        ArrayList<String> listaAcquisti = new ArrayList<>();
+        String sqlQuery = "SELECT NomeStrumento " +
                 "FROM Vendite " +
                 "WHERE Nome = '" + richiestaStorico.getNome() + "'" +
                 "AND Cognome = '" + richiestaStorico.getCognome() + "'" +
@@ -223,7 +327,7 @@ public class PostgresSQLManager extends GestoreDB {
             resultSet = stmt.executeQuery(sqlQuery);
             if (resultSet.isBeforeFirst()) {
                 while (resultSet.next()) {
-                    String nomeStrumento = resultSet.getString("NomeLibro");
+                    String nomeStrumento = resultSet.getString("NomeStrumento");
                     listaAcquisti.add(nomeStrumento);
                 }
             } else {
