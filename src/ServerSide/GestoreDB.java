@@ -54,7 +54,7 @@ public abstract class GestoreDB {
     public abstract ArrayList<Strumento> getListaStrumenti();
 
     // Preleva tutti gli strumenti con un certo nome
-    public abstract ArrayList<Strumento> getNomeStrumento();
+    public abstract ArrayList<Strumento> getNomeStrumento(String nomeStrumento);
 
     public abstract ArrayList<Strumento> getListaStrumentiSezioni(String sezione);
 

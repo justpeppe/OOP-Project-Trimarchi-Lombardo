@@ -5,13 +5,13 @@ import java.util.ArrayList;
 
 import Shared.*;
 
-public class PostgresSQLManager extends GestoreDB {
+public class PostgreSQLManager extends GestoreDB {
 
     private String nomeClasse, driver;
     private Statement stmt;
     private Connection conn;
 
-    public PostgresSQLManager() {
+    public PostgreSQLManager() {
         super();
         this.nomeClasse = Utils.getElementValue("server.xml", "nomeclasse");
         this.driver = Utils.getElementValue("server.xml", "driver");
