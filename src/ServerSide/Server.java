@@ -1,13 +1,10 @@
 package ServerSide;
 
 import Shared.Utils;
-import Shared.Utils.*;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import javax.management.RuntimeErrorException;
 
 public class Server {
 
@@ -19,10 +16,10 @@ public class Server {
             serverSocket = new ServerSocket(porta);
             while (true) {
                 Socket socket = serverSocket.accept();
-                new GestoreClient(socket).start;
+                new GestoreClient(socket).start();
             }
         } catch (IOException ioException) {
-            throw new RuntimeErrorException(ioException);
+            throw new RuntimeException(ioException);
         }
     }
 }
