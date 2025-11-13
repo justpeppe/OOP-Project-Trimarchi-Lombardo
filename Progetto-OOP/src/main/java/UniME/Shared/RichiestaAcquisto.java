@@ -1,7 +1,7 @@
 package UniME.Shared;
 
 public class RichiestaAcquisto extends Richiesta {
-    private String nome, cognome, email, nomeStrumento;
+    private String nome, cognome, email; // nomeStrumento;
     private int IDStrumento;
 
     public RichiestaAcquisto(String nome, String cognome, String email, int IDStrumento) {

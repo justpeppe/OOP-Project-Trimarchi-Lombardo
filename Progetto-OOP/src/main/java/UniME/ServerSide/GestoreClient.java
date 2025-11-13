@@ -144,11 +144,10 @@ public class GestoreClient extends Thread {
             this.objectOutputStream.flush();
             this.objectOutputStream.close();
             this.client.close();
+            return true;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException();
-        } finally {
-            return true;
         }
     }
 }
