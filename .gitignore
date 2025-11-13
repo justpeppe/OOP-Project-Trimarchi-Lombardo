@@ -1,2 +1,3 @@
 # Ignore server.xml anywhere inside progetto-oop
 /server.xml
+/client.xml
