@@ -20,8 +20,8 @@ public class Client {
         try {
             socket = new Socket(Utils.getElementValue("client.xml", "host"),
                     Integer.parseInt(Utils.getElementValue("client.xml", "port")));
-            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             objectInputStream = new ObjectInputStream(socket.getInputStream());
+            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 
             int scelta = 0;
 

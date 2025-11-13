@@ -38,14 +38,17 @@ public class GestoreClient extends Thread {
         while (!esci) {
             try {
                 oggetto = objectInputStream.readObject();
-                if (oggetto instanceof RichiestaGenerica richiestaGenerica) { // Dichiaro e istanzio RichiestaGenerica
+                if (oggetto instanceof RichiestaGenerica) { // Dichiaro e istanzio RichiestaGenerica
+                    RichiestaGenerica richiestaGenerica = (RichiestaGenerica) oggetto;
                     this.gestisciRichiesta(richiestaGenerica);
-                } else if (oggetto instanceof RichiestaAcquisto richiestaAcquisto) { // Dichiaro e istanzio
-                                                                                     // RichiestaAcquisto
+                } else if (oggetto instanceof RichiestaAcquisto) { // Dichiaro e istanzio
+                                                                   // RichiestaAcquisto
+                    RichiestaAcquisto richiestaAcquisto = (RichiestaAcquisto) oggetto;
                     this.gestisciAcquisto(richiestaAcquisto);
 
-                } else if (oggetto instanceof RichiestaStorico richiestaStorico) { // Dichiaro e istanzio
-                                                                                   // RichiestaStorico
+                } else if (oggetto instanceof RichiestaStorico) { // Dichiaro e istanzio
+                                                                  // RichiestaStorico
+                    RichiestaStorico richiestaStorico = (RichiestaStorico) oggetto;
                     this.gestisciStorico(richiestaStorico);
                 }
             } catch (EOFException e) {

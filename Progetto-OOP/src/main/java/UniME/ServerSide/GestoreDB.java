@@ -13,10 +13,10 @@ public abstract class GestoreDB {
     private final int porta;
 
     public GestoreDB() {
-        this.Ip = Utils.getElementValue("server.xml", "Ip");
+        this.Ip = Utils.getElementValue("server.xml", "host");
         this.nomeDB = Utils.getElementValue("server.xml", "nomeDB");
         this.username = Utils.getElementValue("server.xml", "username");
-        this.password = Utils.getElementValue("server.xml", "password");
+        this.password = Utils.getElementValue("server.xml", "pw");
         this.porta = Integer.parseInt(Utils.getElementValue("server.xml", "porta")); // Converto da stringa a int
     }
 

@@ -101,7 +101,7 @@ public class PostgreSQLManager extends GestoreDB {
         ArrayList<Strumento> listaStrumentiNome = new ArrayList<>();
 
         String sqlQuery = "SELECT * FROM Strumenti " +
-                "WHERE NOME LIKE %'" + nomeStrumento + "'";
+                "WHERE NOME LIKE %'" + nomeStrumento + "%'";
 
         ResultSet resultSet;
 
@@ -212,7 +212,7 @@ public class PostgreSQLManager extends GestoreDB {
     public ArrayList<Strumento> getListaStrumentiMarca(String marcaStrumento) {
         ArrayList<Strumento> listaStrumentiMarca = new ArrayList<>();
         String sqlQuery = "SELECT * FROM Strumenti " +
-                "WHERE Marca LIKE '%" + marcaStrumento + "'";
+                "WHERE Marca LIKE '%" + marcaStrumento + "%'";
 
         ResultSet resultSet;
 
