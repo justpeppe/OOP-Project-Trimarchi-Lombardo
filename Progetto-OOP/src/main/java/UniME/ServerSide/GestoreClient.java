@@ -18,8 +18,9 @@ public class GestoreClient extends Thread {
     public GestoreClient(Socket client) {
         this.client = client;
         try {
-            objectInputStream = new ObjectInputStream(client.getInputStream());
             objectOutputStream = new ObjectOutputStream(client.getOutputStream());
+            objectOutputStream.flush();
+            objectInputStream = new ObjectInputStream(client.getInputStream());
         } catch (IOException e) {
             System.out.println("Attenzione! Si è verificato un errore. \nDettagòli: \n");
             e.printStackTrace();

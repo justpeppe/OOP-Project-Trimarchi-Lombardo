@@ -11,7 +11,7 @@ public class Server {
     public static void main(String[] args) {
         int porta = Integer.parseInt(Utils.getElementValue("server.xml", "porta"));
         ServerSocket serverSocket;
-
+        // porta = 5436;
         try {
             serverSocket = new ServerSocket(porta);
             while (true) {

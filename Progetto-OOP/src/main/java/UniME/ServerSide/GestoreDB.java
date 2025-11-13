@@ -17,7 +17,7 @@ public abstract class GestoreDB {
         this.nomeDB = Utils.getElementValue("server.xml", "nomeDB");
         this.username = Utils.getElementValue("server.xml", "username");
         this.password = Utils.getElementValue("server.xml", "pw");
-        this.porta = Integer.parseInt(Utils.getElementValue("server.xml", "porta")); // Converto da stringa a int
+        this.porta = Integer.parseInt(Utils.getElementValue("server.xml", "portDB")); // Converto da stringa a int
     }
 
     public String getIp() {
