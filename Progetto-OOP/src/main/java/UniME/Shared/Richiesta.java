@@ -1,4 +1,4 @@
-package Shared;
+package UniME.Shared;
 
 import java.io.Serializable;
 

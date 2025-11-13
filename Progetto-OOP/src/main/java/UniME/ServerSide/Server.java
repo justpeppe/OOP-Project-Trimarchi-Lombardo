@@ -1,6 +1,6 @@
-package ServerSide;
+package UniME.ServerSide;
 
-import Shared.Utils;
+import UniME.Shared.Utils;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,8 +17,10 @@ public class Server {
             while (true) {
                 Socket socket = serverSocket.accept();
                 new GestoreClient(socket).start();
+                System.out.println("Server in esecuzione");
             }
         } catch (IOException ioException) {
+            System.out.println("Errore");
             throw new RuntimeException(ioException);
         }
     }

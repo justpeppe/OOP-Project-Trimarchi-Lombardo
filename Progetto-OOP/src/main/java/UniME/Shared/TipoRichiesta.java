@@ -1,4 +1,4 @@
-package Shared;
+package UniME.Shared;
 
 public enum TipoRichiesta {
     LISTA_STRUMENTI,

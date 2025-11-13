@@ -1,4 +1,4 @@
-package Shared;
+package UniME.Shared;
 
 public class RichiestaStorico extends Richiesta {
     private String nome, cognome, email;

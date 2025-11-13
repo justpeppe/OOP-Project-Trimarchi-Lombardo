@@ -1,9 +1,9 @@
-package ServerSide;
+package UniME.ServerSide;
 
-import Shared.Strumento;
-import Shared.RichiestaAcquisto;
-import Shared.RichiestaStorico;
-import Shared.Utils;
+import UniME.Shared.Strumento;
+import UniME.Shared.RichiestaAcquisto;
+import UniME.Shared.RichiestaStorico;
+import UniME.Shared.Utils;
 
 import java.util.ArrayList;
 

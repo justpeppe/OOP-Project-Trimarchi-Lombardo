@@ -1,9 +1,9 @@
-package ServerSide;
+package UniME.ServerSide;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-import Shared.*;
+import UniME.Shared.*;
 
 public class PostgreSQLManager extends GestoreDB {
 
@@ -100,7 +100,7 @@ public class PostgreSQLManager extends GestoreDB {
     public ArrayList<Strumento> getNomeStrumento(String nomeStrumento) {
         ArrayList<Strumento> listaStrumentiNome = new ArrayList<>();
 
-        String sqlQuery = "SELECT * FROM STRUMENTI " +
+        String sqlQuery = "SELECT * FROM Strumenti " +
                 "WHERE NOME LIKE %'" + nomeStrumento + "'";
 
         ResultSet resultSet;

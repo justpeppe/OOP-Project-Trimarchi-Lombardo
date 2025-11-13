@@ -1,4 +1,4 @@
-package Shared;
+package UniME.Shared;
 
 public class RichiestaGenerica extends Richiesta{
     private TipoRichiesta tipoRichiesta;

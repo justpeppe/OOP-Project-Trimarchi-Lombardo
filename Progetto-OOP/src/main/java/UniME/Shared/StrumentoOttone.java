@@ -1,4 +1,4 @@
-package Shared;
+package UniME.Shared;
 
 public class StrumentoOttone extends Strumento{
       public StrumentoOttone (String nome, String marca, int ID, int prezzo){
