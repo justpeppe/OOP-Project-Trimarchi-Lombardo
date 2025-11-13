@@ -7,4 +7,3 @@ public enum TipoRichiesta {
     LISTA_ACQUISTI,
     CERCA_NOME_STRUMENTO
 }
-

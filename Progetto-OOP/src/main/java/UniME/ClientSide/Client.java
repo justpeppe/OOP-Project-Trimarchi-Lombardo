@@ -25,20 +25,22 @@ public class Client {
             objectInputStream = new ObjectInputStream(socket.getInputStream());
 
             int scelta = 0;
+            System.out.println("Benvenuto!");
 
             do {
                 System.out.println("\n");
-                System.out.println("Benvenuto!\n");
-                System.out.println("1. Visualizza Lista Strumenti Completa");
+                System.out.println("Menu\':");
+                System.out.println("1. Visualizza Lista strumenti disponibili");
                 System.out.println("2. Cerca uno Strumento");
                 System.out.println("3. Cerca una Sezione");
                 System.out.println("4. Cerca una Marca");
-                System.out.println("5. Acquista strumento");
-                System.out.println("6. Visualizzare Acquisti Precedenti");
+                System.out.println("5. Acquista Strumento");
+                System.out.println("6. Visualizzare Acquisti precedenti");
                 System.out.println("7. Uscire");
-                System.out.print("Seleziona:");
+                System.out.println("Seleziona: ");
 
                 scelta = input.nextInt();
+
                 switch (scelta) {
                     case 1:
                         Client.RichiestaStrumento(objectOutputStream, objectInputStream);
@@ -59,7 +61,8 @@ public class Client {
                         Client.VisualizzaStorico(objectOutputStream, objectInputStream);
                         break;
                     case 7:
-                        System.out.println("Uscita in corso. Attendere...");
+                        System.out.println("Uscita in corso...");
+                        System.out.println("\n\nClient arrestato");
                         break;
                     default:
                         System.out.println("Opzione non valida. Riprovare");
@@ -78,6 +81,7 @@ public class Client {
         }
     }
 
+    // Primo menù
     private static void RichiestaStrumento(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
         RichiestaGenerica richiestaGenerica = new RichiestaGenerica(TipoRichiesta.LISTA_STRUMENTI);
         Object risposta;
@@ -90,11 +94,12 @@ public class Client {
                 if (array.isEmpty()) {
                     System.out.println("\nNessuno Strumento è stato trovato!");
                 } else {
+                    System.out.println("\nEcco la lista strumenti disponibili: ");
                     for (int i = 0; i < array.size(); i++) {
                         if (array.get(i).getQuantita() > 0) {
-                            System.out.println("ID Strumento:" + array.get(i).getId() + "\n" +
+                            System.out.println("    - ID Strumento: " + array.get(i).getId() + "\n" +
                                     array.get(i).toString());
-                            System.out.println("\n\n");
+                            System.out.println("\n");
                         }
                     }
                 }
@@ -109,7 +114,7 @@ public class Client {
         Object risposta;
         Scanner scanner;
         try {
-            System.out.println("Inserisci il nome dell stumento che vuoi cercare:\n");
+            System.out.println("\nInserisci il nome dello stumento che vuoi cercare: ");
             scanner = new Scanner(System.in);
             String nomeStrumento = scanner.nextLine();
             objectOutputStream.writeObject(richiestaGenerica);
@@ -121,13 +126,16 @@ public class Client {
                 if (array.isEmpty()) {
                     System.out.println("\nNessuno Strumento è stato trovato!");
                 } else {
+                    System.out.println("\nAbbiamo trovato i seguenti '" + nomeStrumento + "':\n");
                     for (int i = 0; i < array.size(); i++) {
                         if (array.get(i).getQuantita() == 0) {
-                            System.out.println("\n" + array.get(i).getNome() + ": Strumento non disponibile\n\n");
+                            System.out.println("     - ID Strumento: " + array.get(i).getId() + "\n" +
+                                    array.get(i).toString() + "\n ATTENZIONE!\nStrumento non acquistabile");
+                            System.out.println("\n");
                         } else {
-                            System.out.println("ID Strumento:" + array.get(i).getId() + "\n" +
+                            System.out.println("    - ID Strumento: " + array.get(i).getId() + "\n" +
                                     array.get(i).toString());
-                            System.out.println("");
+                            System.out.println("\n");
                         }
                     }
                 }
@@ -142,7 +150,7 @@ public class Client {
         Object risposta;
         Scanner scanner;
         try {
-            System.out.println("Inserisci la sezione dello strumento che vuoi cercare:\n");
+            System.out.println("\nInserisci la sezione dello strumento che vuoi cercare: ");
             scanner = new Scanner(System.in);
             String sezione = scanner.nextLine();
             objectOutputStream.writeObject(richiestaGenerica);
@@ -152,16 +160,19 @@ public class Client {
             if (risposta instanceof ArrayList<?>) {
                 ArrayList<Strumento> array = (ArrayList<Strumento>) risposta;
                 if (array.isEmpty()) {
-                    System.out.println("\nNessuno Strumento appartenente a questa sezione:" + sezione +
-                            "è stato trovato! Riprova");
+                    System.out.println("\nNessuno Strumento appartenente a questa sezione: " + sezione +
+                            "  è stato trovato! Riprova");
                 } else {
+                    System.out.println("Abbiamo trovato i seguenti strumenti per la sezione '" + sezione + "':\n");
                     for (int i = 0; i < array.size(); i++) {
                         if (array.get(i).getQuantita() == 0) {
-                            System.out.println("\n" + array.get(i).getNome() + ": Strumento non disponibile\n\n");
+                            System.out.println("     - ID Strumento: " + array.get(i).getId() + "\n" +
+                                    array.get(i).toString() + "\n ATTENZIONE!\nStrumento non acquistabile");
+                            System.out.println("\n");
                         } else {
-                            System.out.println("ID Strumento:" + array.get(i).getId() + "\n" +
+                            System.out.println("    - ID Strumento: " + array.get(i).getId() + "\n" +
                                     array.get(i).toString());
-                            System.out.println("");
+                            System.out.println("\n");
                         }
                     }
                 }
@@ -176,7 +187,7 @@ public class Client {
         Object risposta;
         Scanner scanner;
         try {
-            System.out.println("Inserisci la marca dello strumento che vuoi cercare:\n");
+            System.out.println("\nInserisci la marca dello strumento che vuoi cercare: ");
             scanner = new Scanner(System.in);
             String marca = scanner.nextLine();
             objectOutputStream.writeObject(richiestaGenerica);
@@ -186,14 +197,15 @@ public class Client {
             if (risposta instanceof ArrayList<?>) {
                 ArrayList<Strumento> array = (ArrayList<Strumento>) risposta;
                 if (array.isEmpty()) {
-                    System.out.println("\nNessuno Strumento di questa marca:" + marca +
-                            "è stato trovato! Riprova");
+                    System.out.println("\nNessuno Strumento di questa marca: " + marca +
+                            " è stato trovato! Riprova");
                 } else {
+                    System.out.println("Abbiamo trovato i seguenti strumenti per la marca '" + marca + "':\n");
                     for (int i = 0; i < array.size(); i++) {
                         if (array.get(i).getQuantita() == 0) {
-                            System.out.println("\n" + array.get(i).getNome() + ": Strumento non disponibile\n\n");
+                            System.out.println("\n" + array.get(i).getNome() + ": Strumento non acquistabile\n\n");
                         } else {
-                            System.out.println("ID Strumento:" + array.get(i).getId() + "\n" +
+                            System.out.println("    - ID Strumento: " + array.get(i).getId() + "\n" +
                                     array.get(i).toString());
                             System.out.println("");
                         }
@@ -212,13 +224,14 @@ public class Client {
 
         try {
             scanner = new Scanner(System.in);
-            System.out.println("Inserisci l'id dello strumento che vuoi acquistare: ");
+            System.out.println("\nInserisci l'id dello strumento che vuoi acquistare: ");
             int idStrumento = scanner.nextInt();
 
             scanner.nextLine();
 
-            System.out.println("Inserisci il nome dello strumento che vuoi acquistare: ");
-            String nomeStrumento = scanner.nextLine();
+            // System.out.println("Inserisci il nome dello strumento che vuoi acquistare:
+            // ");
+            // String nomeStrumento = scanner.nextLine();
 
             System.out.println("Inserisci il tuo nome: ");
             String nome = scanner.nextLine();
@@ -229,7 +242,7 @@ public class Client {
             System.out.println("Inserisci l'email: ");
             String email = scanner.nextLine();
 
-            richiestaAcquisto = new RichiestaAcquisto(nome, cognome, email, idStrumento, nomeStrumento);
+            richiestaAcquisto = new RichiestaAcquisto(nome, cognome, email, idStrumento);
 
             objectOutputStream.writeObject(richiestaAcquisto);
             objectOutputStream.flush();
@@ -252,8 +265,8 @@ public class Client {
 
         try {
             scanner = new Scanner(System.in);
-
-            System.out.println("Inserisci il tuo nome: ");
+            ;
+            System.out.println("\nInserisci il tuo nome: ");
             String nome = scanner.nextLine();
 
             System.out.println("Inserisci il tuo cognome: ");
@@ -273,8 +286,9 @@ public class Client {
                 if (array.isEmpty()) {
                     System.out.println("\nNessun acquisto è stato ancora effettuato");
                 } else {
+                    System.out.println("\nEcco gli strumenti che hai acquistato: \n");
                     for (int i = 0; i < array.size(); i++) {
-                        System.out.println("Strumento:" + array.get(i));
+                        System.out.println("    - Strumento: " + array.get(i));
                     }
                 }
             } else {

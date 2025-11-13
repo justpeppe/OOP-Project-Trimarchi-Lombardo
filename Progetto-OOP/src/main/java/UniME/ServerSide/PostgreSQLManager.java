@@ -101,7 +101,7 @@ public class PostgreSQLManager extends GestoreDB {
         ArrayList<Strumento> listaStrumentiNome = new ArrayList<>();
 
         String sqlQuery = "SELECT * FROM Strumenti " +
-                "WHERE NOME LIKE %'" + nomeStrumento + "%'";
+                "WHERE Nome ILIKE '%" + nomeStrumento + "%'";
 
         ResultSet resultSet;
 
@@ -146,7 +146,7 @@ public class PostgreSQLManager extends GestoreDB {
                 System.out.println("Non e\' stato trovato nessuno strumento con il nome: " + nomeStrumento);
             }
         } catch (SQLException sqlException) {
-            System.out.println("Non è stato possibile fare la query, errore: \n");
+            System.out.println("Non e\' stato possibile fare la query, errore: \n");
             sqlException.printStackTrace();
         }
         return listaStrumentiNome;
@@ -156,7 +156,7 @@ public class PostgreSQLManager extends GestoreDB {
     public ArrayList<Strumento> getListaStrumentiSezioni(String sezione) {
         ArrayList<Strumento> listaStrumentiSezioni = new ArrayList<>();
         String sqlQuery = "SELECT * FROM Strumenti " +
-                "WHERE Sezione = '" + sezione + "'";
+                "WHERE Sezione ILIKE '%" + sezione + "%'";
 
         ResultSet resultSet;
 
@@ -212,7 +212,7 @@ public class PostgreSQLManager extends GestoreDB {
     public ArrayList<Strumento> getListaStrumentiMarca(String marcaStrumento) {
         ArrayList<Strumento> listaStrumentiMarca = new ArrayList<>();
         String sqlQuery = "SELECT * FROM Strumenti " +
-                "WHERE Marca LIKE '%" + marcaStrumento + "%'";
+                "WHERE Marca ILIKE '%" + marcaStrumento + "%'";
 
         ResultSet resultSet;
 
@@ -225,7 +225,7 @@ public class PostgreSQLManager extends GestoreDB {
                     String marca = resultSet.getString("Marca");
                     int prezzo = resultSet.getInt("Prezzo");
                     int quantita = resultSet.getInt("Quantita"); // senza accento
-                    String sezioneStrumento = resultSet.getString("marca");
+                    String sezioneStrumento = resultSet.getString("Sezione");
 
                     Sezioni sezioneQuery = Sezioni.valueOf(sezioneStrumento.toUpperCase());
 
@@ -272,18 +272,17 @@ public class PostgreSQLManager extends GestoreDB {
         String cognome = richiestaAcquisto.getCognome();
         String email = richiestaAcquisto.getEmail();
         int IDstrumento = richiestaAcquisto.getIDStrumento();
-        String nomeStrumento = richiestaAcquisto.getNomeStrumento();
+        // String nomeStrumento = richiestaAcquisto.getNomeStrumento();
 
         // Acquista deve diminuire il numero di copie disponibili nel db
         String sqlQueryAcquista = "UPDATE Strumenti " +
-                "SET NumeroCopie = NumeroCopie - 1" +
+                "SET Quantita = Quantita - 1" + " " +
                 "WHERE ID = " + IDstrumento + " " +
-                "AND Numerocopie > 0";
+                "AND Quantita > 0";
 
         // Aggiorniamo la tabella delle vendite
-        String sqlQueryVendita = "INSERT INTO Vendite (Nome,Cognome,Email,IDStrumento,NomeStrumento) " +
-                "VALUES ('" + nome + "', '" + cognome + "', '" + email + "', '" + IDstrumento + "', '" + nomeStrumento
-                + "');";
+        String sqlQueryVendita = "INSERT INTO Vendite (Nome,Cognome,Email,IDStrumento) " +
+                "VALUES ('" + nome + "', '" + cognome + "', '" + email + "', '" + IDstrumento + "');";
 
         int risultatoQueryAcquista = 0;
         int risultatoQueryVendita = 0;
@@ -315,11 +314,14 @@ public class PostgreSQLManager extends GestoreDB {
 
     public ArrayList<String> getListaAcquisti(RichiestaStorico richiestaStorico) {
         ArrayList<String> listaAcquisti = new ArrayList<>();
-        String sqlQuery = "SELECT NomeStrumento " +
+        String sqlQuery = "SELECT Nome FROM Strumenti WHERE ID in (" +
+                "SELECT IDStrumento " +
                 "FROM Vendite " +
-                "WHERE Nome = '" + richiestaStorico.getNome() + "'" +
-                "AND Cognome = '" + richiestaStorico.getCognome() + "'" +
-                "AND Email = '" + richiestaStorico.getEmail() + "';";
+                "WHERE Nome ILIKE '%" + richiestaStorico.getNome() + "%'" +
+                "AND Cognome ILIKE '%" + richiestaStorico.getCognome() + "%'" +
+                "AND Email ILIKE '%" + richiestaStorico.getEmail() + "%'" +
+                ");";
+        System.out.println(sqlQuery);
 
         ResultSet resultSet;
 
@@ -327,7 +329,7 @@ public class PostgreSQLManager extends GestoreDB {
             resultSet = stmt.executeQuery(sqlQuery);
             if (resultSet.isBeforeFirst()) {
                 while (resultSet.next()) {
-                    String nomeStrumento = resultSet.getString("NomeStrumento");
+                    String nomeStrumento = resultSet.getString("Nome");
                     listaAcquisti.add(nomeStrumento);
                 }
             } else {
