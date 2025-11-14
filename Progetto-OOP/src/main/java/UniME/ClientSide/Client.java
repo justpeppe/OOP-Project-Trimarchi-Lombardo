@@ -109,6 +109,7 @@ public class Client {
         }
     }
 
+
     private static void CercaStrumento(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
         RichiestaGenerica richiestaGenerica = new RichiestaGenerica(TipoRichiesta.CERCA_NOME_STRUMENTO);
         Object risposta;
@@ -140,6 +141,7 @@ public class Client {
                     }
                 }
             }
+           scanner.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -177,6 +179,7 @@ public class Client {
                     }
                 }
             }
+            scanner.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -212,6 +215,8 @@ public class Client {
                     }
                 }
             }
+            scanner.close();
+            
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -253,6 +258,7 @@ public class Client {
             } else {
                 System.out.println("\nQualcosa è andato storto durante l'acquisto, ritenta!\n");
             }
+            scanner.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -294,6 +300,7 @@ public class Client {
             } else {
                 System.out.println("\nQualcosa è andato storto, ritetnta!\n\n");
             }
+            scanner.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
