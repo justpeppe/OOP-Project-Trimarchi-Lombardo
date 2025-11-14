@@ -1,4 +1,4 @@
-package Domande.ClientServer;
+package DomandePeppe.ClientServer;
 
 // Importazione pacchetti e librerie
 import java.net.*;

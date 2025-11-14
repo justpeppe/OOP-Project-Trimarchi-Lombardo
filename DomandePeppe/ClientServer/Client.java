@@ -1,4 +1,4 @@
-package Domande.ClientServer;
+package DomandePeppe.ClientServer;
 
 import java.io.*;
 import java.net.*;
