@@ -1,4 +1,4 @@
-package DomandePeppe.ProduttoreConsumatore;
+package DomandePeppe.B_ProduttoreConsumatore;
 
 public class BufferCondiviso {
 

@@ -1,4 +1,4 @@
-package DomandePeppe.ProduttoreConsumatore;
+package DomandePeppe.B_ProduttoreConsumatore;
 
 // Classe  Implementa Runnable per l'esecuzione concorrente.
 public class Consumatore implements Runnable {

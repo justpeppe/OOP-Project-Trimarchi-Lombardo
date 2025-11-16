@@ -1,4 +1,4 @@
-package DomandePeppe.ProduttoreConsumatore;
+package DomandePeppe.B_ProduttoreConsumatore;
 
 //Classe implementa Runnable per essere eseguita in un Thread separato
 
