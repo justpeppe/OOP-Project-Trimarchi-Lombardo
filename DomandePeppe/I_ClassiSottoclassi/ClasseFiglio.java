@@ -3,7 +3,6 @@ package DomandePeppe.I_ClassiSottoclassi;
 public class ClasseFiglio extends ClassePadre {
 
     private String cognome;
-    private String testo;
 
     public ClasseFiglio(String nome, String cognome) {
         super(nome); // premere ctrl + spazio per vedere i costruttori della classe padre
