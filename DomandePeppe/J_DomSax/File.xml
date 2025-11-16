@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<persone>
+    <persona nome="Marco" cognome="Rossi" />
+    <persona nome="Lucia" cognome="Bianchi" />
+    <persona nome="Antonio" cognome="Verdi" />
+</persone>
