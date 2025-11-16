@@ -1,0 +1,4 @@
+del /s /q bin\*.class oppure Remove-Item -Recurse -Force bin\*.class
+mkdir bin
+javac -d bin *.java
+java -cp bin DomandePeppe.D_CostruttoreDefault.Main // cambiare con ciò che serve
