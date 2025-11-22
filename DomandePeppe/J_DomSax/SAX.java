@@ -9,23 +9,17 @@ public class SAX {
     public static void main(String[] args) {
 
         try {
-            // Creo la factory per il parser SAX
-            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            SAXParser sp = spf.newSAXParser();
+            SAX_Handler sax_Handler = new SAX_Handler();
 
-            // Creo il parser SAX
-            SAXParser saxParser = factory.newSAXParser();
+            File xmFile = new File("esempio.xml");
 
-            // Creo un'istanza del mio handler personalizzato
-            Handler handler = new Handler();
-
-            // Specifico il file XML da parsare
-            File xmlFile = new File("File.xml");
-
-            // Avvio il parsing passando il file e l'handler
-            saxParser.parse(xmlFile, handler);
+            sp.parse(xmFile, sax_Handler);
 
         } catch (Exception e) {
             System.err.println("ERRORE: " + e.getMessage());
         }
+
     }
 }
