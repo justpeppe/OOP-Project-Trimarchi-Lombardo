@@ -15,8 +15,6 @@ public class Client {
         ObjectOutputStream objectOutputStream;
         ObjectInputStream objectInputStream;
 
-        Scanner input = new Scanner(System.in);
-
         try {
             socket = new Socket(Utils.getElementValue("client.xml", "host"),
                     Integer.parseInt(Utils.getElementValue("client.xml", "port")));
@@ -28,6 +26,7 @@ public class Client {
             System.out.println("Benvenuto!");
 
             do {
+                Scanner input = new Scanner(System.in);
                 System.out.println("\n");
                 System.out.println("Menu\':");
                 System.out.println("1. Visualizza Lista strumenti disponibili");
@@ -61,6 +60,7 @@ public class Client {
                         Client.VisualizzaStorico(objectOutputStream, objectInputStream);
                         break;
                     case 7:
+                        input.close();
                         System.out.println("Uscita in corso...");
                         System.out.println("\n\nClient arrestato");
                         break;
@@ -74,7 +74,6 @@ public class Client {
             objectOutputStream.close();
             objectInputStream.close();
             socket.close();
-            input.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,7 +108,6 @@ public class Client {
         }
     }
 
-
     private static void CercaStrumento(ObjectOutputStream objectOutputStream, ObjectInputStream objectInputStream) {
         RichiestaGenerica richiestaGenerica = new RichiestaGenerica(TipoRichiesta.CERCA_NOME_STRUMENTO);
         Object risposta;
@@ -141,7 +139,7 @@ public class Client {
                     }
                 }
             }
-           scanner.close();
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -179,7 +177,7 @@ public class Client {
                     }
                 }
             }
-            scanner.close();
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -215,8 +213,7 @@ public class Client {
                     }
                 }
             }
-            scanner.close();
-            
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -258,7 +255,7 @@ public class Client {
             } else {
                 System.out.println("\nQualcosa è andato storto durante l'acquisto, ritenta!\n");
             }
-            scanner.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -300,7 +297,7 @@ public class Client {
             } else {
                 System.out.println("\nQualcosa è andato storto, ritetnta!\n\n");
             }
-            scanner.close();
+
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
