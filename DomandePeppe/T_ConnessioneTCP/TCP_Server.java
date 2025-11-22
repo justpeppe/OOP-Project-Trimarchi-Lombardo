@@ -24,6 +24,7 @@ public class TCP_Server {
             dati_out.println("Messaggio da server a client");
 
             clientSocket.close();
+            serverSocket.close();
 
         } catch (Exception e) {
             System.err.println("ERRORE: " + e.getMessage());

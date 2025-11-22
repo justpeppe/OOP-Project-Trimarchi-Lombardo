@@ -22,6 +22,8 @@ public class TCP_Client {
             String risposta = dati_in.readLine();
             System.out.println("Risposta dal server: " + risposta);
 
+            socket.close();
+
         } catch (Exception e) {
             System.err.println("ERRORE: " + e.getMessage());
         }
